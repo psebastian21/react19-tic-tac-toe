@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-const Player = ({ initialName, symbol }) => {
+const Player = ({ initialName, symbol, isActive }) => {
     const [isEditing, setIsEditing] = useState(false)
     const [playerName, setPlayerName] = useState(initialName)
     const handleEditClick = () => {
@@ -10,15 +10,15 @@ const Player = ({ initialName, symbol }) => {
         setPlayerName(event.target.value)
     }
     let playerNameField, buttonText
-    if(isEditing){
-         playerNameField = <input type="text" required value={playerName} onChange={handleInputChange}/> 
-         buttonText="Save"
+    if (isEditing) {
+        playerNameField = <input type="text" required value={playerName} onChange={handleInputChange} />
+        buttonText = "Save"
     }
-    else{
+    else {
         playerNameField = <span className="player-name">{playerName}</span>
         buttonText = "Edit"
     }
-    return <li>
+    return <li className={isActive ? "active" : undefined}>
         <span className="player">
             {playerNameField}
             <span className="player-symbol">{symbol}</span>
