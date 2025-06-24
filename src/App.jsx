@@ -3,9 +3,17 @@ import GameBoard from "./components/GameBoard"
 import Player from "./components/Player"
 
 function App() {
+  const [gameTurns, setGameTurns] = useState([])
   const [activePlayer, setActivePlayer] = useState("X")
-  const handleSelectSquare = () => {
+  const handleSelectSquare = (rowIndex, colIndex) => {
     setActivePlayer((prevActivePlayer) => prevActivePlayer === "X" ? "O" : "X")
+    setGameTurns((prevTurns) => {
+      const player = prevTurns.length > 0 && prevTurns[0].player === "X" ? "O" : "X"
+      return [
+        { square: { row: rowIndex, col: colIndex}, player},
+        ...prevTurns
+      ]
+    })
   }
 
   return (

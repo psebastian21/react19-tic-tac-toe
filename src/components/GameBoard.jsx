@@ -1,5 +1,3 @@
-import { useState } from "react"
-
 const initialGameBoard = [
     [null, null, null],
     [null, null, null],
@@ -24,7 +22,7 @@ const GameBoard = ({ onSelectSquare }) => {
                     <ol>
                         {row.map((squareContent, colIndex) => (
                             <li key={colIndex}>
-                                <button onClick={() => handleSquareClick(rowIndex, colIndex)}>{squareContent}</button>
+                                <button onClick={onSelectSquare}>{squareContent}</button>
                             </li>
                         ))}
                     </ol>
