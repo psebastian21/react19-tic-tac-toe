@@ -1,19 +1,41 @@
 import { useState } from "react"
 import GameBoard from "./components/GameBoard"
 import Player from "./components/Player"
+import Log from "./components/Log"
+import { WINNING_COMBINATIONS } from "./winning-combinations";
+
+const createEmptyBoard = () => Array.from({ length: 3 }, () => Array(3).fill(null));
 
 function App() {
-  const [gameTurns, setGameTurns] = useState([])
-  const [activePlayer, setActivePlayer] = useState("X")
+  const [gameState, setGameState] = useState({ gameTurns: [], activePlayer: "X" })
   const handleSelectSquare = (rowIndex, colIndex) => {
-    setActivePlayer((prevActivePlayer) => prevActivePlayer === "X" ? "O" : "X")
-    setGameTurns((prevTurns) => {
-      const player = prevTurns.length > 0 && prevTurns[0].player === "X" ? "O" : "X"
-      return [
-        { square: { row: rowIndex, col: colIndex }, player },
-        ...prevTurns
-      ]
+    setGameState((prevGameState) => {
+      return {
+        gameTurns: [
+          { square: { row: rowIndex, col: colIndex }, player: prevGameState.activePlayer },
+          ...prevGameState.gameTurns
+        ],
+        activePlayer: prevGameState.activePlayer === "X" ? "O" : "X"
+      }
     })
+  }
+  const { gameTurns, activePlayer } = gameState
+  const gameBoard = createEmptyBoard()
+  gameTurns.forEach((turn) => {
+    gameBoard[turn.square.row][turn.square.col] = turn.player
+  })
+  let winner = null;
+
+  for (let i = 0; i < WINNING_COMBINATIONS.length; i++) {
+    const combination = WINNING_COMBINATIONS[i];
+    const firstSquare = gameBoard[combination[0].row][combination[0].column];
+    const secondSquare = gameBoard[combination[1].row][combination[1].column];
+    const thirdSquare = gameBoard[combination[2].row][combination[2].column];
+
+    if (firstSquare && firstSquare === secondSquare && firstSquare === thirdSquare) {
+      winner = firstSquare;
+      break;
+    }
   }
 
   return (
@@ -23,8 +45,9 @@ function App() {
           <Player initialName="Player 1" symbol="X" isActive={activePlayer === "X"} />
           <Player initialName="Player 2" symbol="O" isActive={activePlayer === "O"} />
         </ol>
-        <GameBoard onSelectSquare={handleSelectSquare} turns={gameTurns} />
+        <GameBoard onSelectSquare={handleSelectSquare} gameBoard={gameBoard} />
       </div>
+      <Log turns={gameTurns} />
     </main>
   )
 }
