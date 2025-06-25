@@ -24,7 +24,8 @@ export default defineConfig([
       ...pluginReact.configs.flat.recommended.rules,
       "no-undef": "error", // ← this enables undefined variable checks
       "react/react-in-jsx-scope": "off",
-      "react/prop-types": "off"
+      "react/prop-types": "off",
+      "no-unused-vars": "warn"
     },
     settings: {
       react: {
