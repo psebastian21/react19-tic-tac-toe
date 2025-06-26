@@ -1,4 +1,4 @@
-const GameBoard = ({ onSelectSquare, gameBoard }) => {
+const GameBoard = ({onSelectSquare, gameBoard}) => {
     return (
         <ol id="game-board">
             {gameBoard.map((row, rowIndex) => (
@@ -6,7 +6,8 @@ const GameBoard = ({ onSelectSquare, gameBoard }) => {
                     <ol>
                         {row.map((squareContent, colIndex) => (
                             <li key={colIndex}>
-                                <button onClick={() => onSelectSquare(rowIndex, colIndex)} disabled={squareContent !== null}>{squareContent}</button>
+                                <button onClick={() => onSelectSquare(rowIndex, colIndex)}
+                                        disabled={squareContent !== null}>{squareContent}</button>
                             </li>
                         ))}
                     </ol>
